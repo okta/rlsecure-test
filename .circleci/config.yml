@@ -10,7 +10,7 @@ orbs:
 jobs:
   reversing-labs:
     docker:
-      - image: cimage/go:1.19.4
+      - image: cimg/go:1.19.4
     steps:
       - checkout
 
