@@ -52,7 +52,7 @@ jobs:
           name: Run Reversing Labs Wrapper Scanner
           command: |
             rl-wrapper \
-              --repository $CIRCLE_PROJECT_REPONAME \
+              --repository $CIRCLE_PROJECT_REPONAME/$CIRCLE_PROJECT_REPONAME \
               --commit $CIRCLE_SHA1 \
               --build-env "circleci" \
 
