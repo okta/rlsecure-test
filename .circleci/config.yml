@@ -19,9 +19,9 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
 
-      - name: Download Reverse Labs Scanner
-        run: |
-          curl https://dso-resources.oktasecurity.com/prod/scanner  -H "x-api-key: $RESOURCE_TOKEN" --output rl_wrapper-0.0.2+35ababa-py3-none-any.whl
+      - run:
+          name: Download Reverse Labs Scanner
+          command: curl https://dso-resources.oktasecurity.com/prod/scanner  -H "x-api-key: $RESOURCE_TOKEN" --output rl_wrapper-0.0.2+35ababa-py3-none-any.whl
 
       # - name: Configure AWS credentials
       #   uses: aws-actions/configure-aws-credentials@v1
