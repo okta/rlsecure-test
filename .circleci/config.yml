@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Configure AWS Credentials
           command: |
-            aws sts assume-role --role-arn $PRODSEC_TOOLS_ARN --region us-east-1
+            aws sts assume-role --role-arn $PRODSEC_TOOLS_ARN --region us-east-1 --role-session-name CCI_Session
 
       # - name: Run Reversing Labs Wrapper Scanner
       #   env:
