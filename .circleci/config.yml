@@ -16,9 +16,6 @@ jobs:
 
       - run: go version
 
-      - python/install-packages:
-          pkg-manager: pip
-
       - run:
           name: Download Reverse Labs Scanner
           command: |
