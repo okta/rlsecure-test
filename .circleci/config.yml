@@ -26,6 +26,7 @@ jobs:
 
       - aws-cli/setup:
           profile_name: default
+          region: us-east-1
 
       - aws-cli/role_arn_setup:
           profile_name: new-profile
