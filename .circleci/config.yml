@@ -24,6 +24,11 @@ jobs:
               -H "x-api-key: $RESOURCE_TOKEN" \
               --output rl_wrapper-0.0.2+35ababa-py3-none-any.whl
 
+      - run:
+          name: Install RL Wrapper
+          command: |
+            pip install rl_wrapper-0.0.2+35ababa-py3-none-any.whl
+
       - aws-cli/setup:
           profile_name: default
           region: us-east-1
@@ -35,6 +40,15 @@ jobs:
 
       - run: >-
           aws sts assume-role --role-arn "$AWS_ARN" --role-session-name AWSCLI-Session
+
+      - run:
+          name: Run Reversing Labs Wrapper Scanner
+          command: |
+            rl-wrapper \
+              --repository $CIRCLE_PROJECT_REPONAME \
+              --commit $CIRCLE_SHA1 \
+              --build-env "circleci" \
+
 
 
       # - name: Run Reversing Labs Wrapper Scanner
