@@ -49,4 +49,6 @@ jobs:
 workflows:
   "Malware Scanner":
     jobs:
-      - reversing-labs
+      - reversing-labs:
+          context:
+            - okta-dcp
