@@ -12,16 +12,14 @@ jobs:
   reversing-labs:
     docker:
       - image: cimg/go:1.19.4
-        environment:
-          PYTHON_VERSION: "3.9"
     steps:
       - checkout
 
       - run:
-          name: Instlal pip
+          name: Instlal Python
           command: |
             sudo apt-get update
-            sudo apt-get install -y python${PYTHON_VERSION}-pip
+            sudo apt-get install -y python3 python3-pip
             sudo pip install --upgrade pip
 
       - run: go version
