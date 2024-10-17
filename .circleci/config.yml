@@ -5,42 +5,48 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build:
-    circleci_ip_ranges: true
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  reversing-labs:
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      - image: cimage/go:1.19.4
     steps:
       - checkout
-      - run:
-          name: "build stage"
-          command: "echo build stage"
-  test:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run:
-          name: "test stage"
-          command: "echo test stage"
-  package:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - run:
-          name: "package stage"
-          command: "echo package stage"
+      - run: go version
+      - name: Set up Python
+        uses: actions/setup-python@v4
+          with:
+            python-version: "3.10"
+
+      - name: Download Reverse Labs Scanner
+        run: |
+          curl https://dso-resources.oktasecurity.com/prod/scanner  -H "x-api-key: $TOKEN" --output rl_wrapper-0.0.2+35ababa-py3-none-any.whl
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: $PRODSEC_TOOLS_ARN
+          aws-region: us-east-1
+          mask-aws-account-id: true
+
+      - name: Run Reversing Labs Wrapper Scanner
+        env:
+          RLSECURE_LICENSE: $RLSECURE_LICENSE
+          RLSECURE_SITE_KEY: $RLSECURE_SITE_KEY
+          SIGNAL_HANDLER_TOKEN: $SIGNAL_HANDLER_TOKEN
+          PYTHONUNBUFFERED: 1
+        run: |
+          pip install rl_wrapper-0.0.2+35ababa-py3-none-any.whl && \
+          rl-wrapper \
+            --artifact "${{ steps.output_build_artifact.outputs.scanfile }}" \
+            --name "${{ steps.artifact.outputs.artifact_name }}" \
+            --version "${{ steps.artifact.outputs.artifact_version }}" \
+            --repository "${{ github.repository }}" \
+            --commit "${{ github.sha }}" \
+            --build-env "github_action" \
+            --suppress_output
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  build-and-test:
+  "Malware Scanner":
     jobs:
-      - build
-      - test:
-          requires:
-            - build
-      - package:
-          requires:
-            - test
+      - reversing-labs
