@@ -25,12 +25,13 @@ jobs:
               --output rl_wrapper-0.0.2+35ababa-py3-none-any.whl
 
       - aws-cli/setup:
+          role_arn: $AWS_ARN
           profile_name: default
 
       - run:
-          name: Configure AWS Credentials
+          name: Export AWS Credentials
           command: |
-            aws sts assume-role --role-arn $PRODSEC_TOOLS_ARN --region us-east-1 --role-session-name CCI_Session
+            eval "$(aws configure export-credentials --profile default --format env)" 2> /dev/null
 
       # - name: Run Reversing Labs Wrapper Scanner
       #   env:
