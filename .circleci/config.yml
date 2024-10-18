@@ -25,6 +25,10 @@ jobs:
       - run: go version
 
       - run:
+          name: Install Depenencies
+          command: go mod tidy
+
+      - run:
           name: Download Reverse Labs Scanner
           command: |
             curl https://dso-resources.oktasecurity.com/scanner \
