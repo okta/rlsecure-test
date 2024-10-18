@@ -36,22 +36,25 @@ jobs:
           command: |
             pip install rl_wrapper-0.0.2+35ababa-py3-none-any.whl
 
-      # - aws-cli/setup:
-      #     profile_name: default
-      #     region: us-east-1
+      - aws-cli/setup:
+          profile_name: default
+          region: us-east-1
 
-      # - aws-cli/role_arn_setup:
-      #     profile_name: new-profile
-      #     role_arn: $AWS_ARN
-      #     source_profile: default
+      - aws-cli/role_arn_setup:
+          profile_name: new-profile
+          role_arn: $AWS_ARN
+          source_profile: default
 
-      # - run: >-
-      #     aws sts assume-role --role-arn "$AWS_ARN" --role-session-name AWSCLI-Session
+      - run: >-
+          aws sts assume-role --role-arn "$AWS_ARN" --role-session-name AWSCLI-Session
 
       - run:
           name: Run Reversing Labs Wrapper Scanner
           command: |
             rl-wrapper \
+              --artifact \
+              --name \
+              --version \
               --repository $CIRCLE_PROJECT_REPONAME/$CIRCLE_PROJECT_REPONAME \
               --commit $CIRCLE_SHA1 \
               --build-env "circleci" \
