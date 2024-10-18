@@ -38,7 +38,7 @@ jobs:
       - run:
           name: Install RL Wrapper
           command: |
-            pip install rl_wrapper-0.0.2+35ababa-py3-none-any.whl
+            pip install ./rl_wrapper-0.0.2+35ababa-py3-none-any.whl
 
       - aws-cli/setup:
           profile_name: default
@@ -60,25 +60,6 @@ jobs:
               --build-env "circleci" \
               --suppress_output
 
-
-
-
-      # - name: Run Reversing Labs Wrapper Scanner
-      #   env:
-      #     RLSECURE_LICENSE: $RLSECURE_LICENSE
-      #     RLSECURE_SITE_KEY: $RLSECURE_SITE_KEY
-      #     SIGNAL_HANDLER_TOKEN: $SIGNAL_HANDLER_TOKEN
-      #     PYTHONUNBUFFERED: 1
-      #   run: |
-      #     pip install rl_wrapper-0.0.2+35ababa-py3-none-any.whl && \
-      #     rl-wrapper \
-      #       --artifact "${{ steps.output_build_artifact.outputs.scanfile }}" \
-      #       --name "${{ steps.artifact.outputs.artifact_name }}" \
-      #       --version "${{ steps.artifact.outputs.artifact_version }}" \
-      #       --repository "${{ github.repository }}" \
-      #       --commit "${{ github.sha }}" \
-      #       --build-env "github_action" \
-      #       --suppress_output
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
