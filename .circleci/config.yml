@@ -38,12 +38,8 @@ jobs:
 
       - aws-cli/setup:
           profile_name: default
-          region: us-east-1
-
-      - aws-cli/role_arn_setup:
-          profile_name: new-profile
           role_arn: $AWS_ARN
-          source_profile: default
+          region: us-east-1
 
       - run: >-
           eval "$(aws configure export-credentials --profile default --format env)" 2> /dev/null
