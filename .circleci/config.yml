@@ -58,6 +58,8 @@ jobs:
               --repository $CIRCLE_PROJECT_REPONAME/$CIRCLE_PROJECT_REPONAME \
               --commit $CIRCLE_SHA1 \
               --build-env "circleci" \
+              --supress_output
+
 
 
 
