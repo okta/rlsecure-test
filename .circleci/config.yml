@@ -25,8 +25,8 @@ jobs:
       - run: go version
 
       - run:
-          name: Install Depenencies
-          command: go mod vendor
+          name: Build binary to scan
+          command: go build
 
       - run:
           name: Download Reverse Labs Scanner
