@@ -46,7 +46,7 @@ jobs:
           source_profile: default
 
       - run: >-
-          aws sts assume-role --role-arn "$AWS_ARN" --role-session-name AWSCLI-Session
+          eval "$(aws configure export-credentials --profile default --format env)" 2> /dev/null
 
       - run:
           name: Run Reversing Labs Wrapper Scanner
